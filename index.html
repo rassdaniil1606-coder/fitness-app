@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background: radial-gradient(circle at top, #1a0b2e 0%, #000000 100%);
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 { color: #bc13fe; text-shadow: 0 0 15px #bc13fe; }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #bc13fe;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.3);
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #bc13fe;
+            background: black;
+            color: white;
+            box-sizing: border-box;
+        }
+        .btn {
+            background: linear-gradient(90deg, #8a2be2, #bc13fe);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>NEO-FITNESS AI</h1>
+    <div id="form-screen" class="card">
+        <h3>ОФОРМЛЕНИЕ</h3>
+        <input type="text" id="name" placeholder="Твое имя">
+        <input type="email" id="email" placeholder="Твой Email">
+        <button class="btn" onclick="sendData()">ОПЛАТИТЬ 3000 ₽</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function sendData() {
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            
+            if (!name || !email) {
+                alert("Заполни все поля!");
+                return;
+            }
+
+            let data = {
+                name: name,
+                email: email,
+                tariff: "SMART PRO"
+            };
+
+            // Отправляем данные боту
+            tg.sendData(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>
