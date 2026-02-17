@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Черный фон и основной стиль */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Контейнер для трех кнопок в ряд */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Стиль кнопок */
+        .tariff-btn {
+            flex: 1; /* Одинаковый размер */
+            background-color: #1c1c1e;
+            border: 1px solid #3a3a3c;
+            color: white;
+            padding: 15px 5px;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tariff-btn:active {
+            background-color: #3a3a3c;
+            transform: scale(0.95);
+        }
+
+        /* Большая кнопка Купить */
+        .buy-btn {
+            width: 100%;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Всплывающее окно (Модальное) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1c1c1e;
+            padding: 25px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #3a3a3c;
+            background: #2c2c2e;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .send-btn {
+            background-color: #34c759;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Выберите план</h2>
+
+    <div class="button-container">
+        <button class="tariff-btn" onclick="selectTariff('Лайт', '1000₽')">Лайт<br><b>1000₽</b></button>
+        <button class="tariff-btn" onclick="selectTariff('Про', '2500₽')">Про<br><b>2500₽</b></button>
+        <button class="tariff-btn" onclick="selectTariff('Макс', '5000₽')">Макс<br><b>5000₽</b></button>
+    </div>
+
+    <button class="buy-btn" onclick="openModal()">КУПИТЬ</button>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <h3>Оформление</h3>
+            <input type="text" id="userName" placeholder="Ваше имя">
+            <input type="email" id="userEmail" placeholder="Ваш E-mail">
+            <button class="send-btn" onclick="sendData()">Отправить</button>
+            <button style="background:none; border:none; color:#999; margin-top:15px;" onclick="closeModal()">Отмена</button>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        let selectedTariff = "Лайт (1000₽)"; // По умолчанию
+
+        tg.expand(); // Расширить на весь экран
+
+        function selectTariff(name, price) {
+            selectedTariff = name + " (" + price + ")";
+            // Подсветка выбранной кнопки (опционально можно добавить)
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function openModal() {
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function sendData() {
+            let name = document.getElementById('userName').value;
+            let email = document.getElementById('userEmail').value;
+
+            if (name === "" || email === "") {
+                alert("Пожалуйста, заполни все поля!");
+                return;
+            }
+
+            let data = {
+                tariff: selectedTariff,
+                name: name,
+                email: email
+            };
+
+            // Отправляем данные в бот
+            tg.sendData(JSON.stringify(data));
+            tg.close(); // Закрываем приложение
+        }
+    </script>
+</body>
+</html>
