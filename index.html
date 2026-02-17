@@ -3,171 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Mini App</title>
+    <title>Hard Work | App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Черный фон и основной стиль */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
         body {
-            background-color: #000000;
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000;
+            /* Используем твою картинку и добавляем сильное затемнение по краям для фокуса в центр */
+            background-image: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 100%), url('IMG_20260217_105959_349.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
-        h2 {
+        .header h1 {
+            font-size: 26px;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #fff, #a020f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 30px;
-            font-weight: 300;
         }
 
-        /* Контейнер для трех кнопок в ряд */
-        .button-container {
+        .tariff-container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 15px;
             width: 100%;
-            gap: 10px;
-            margin-bottom: 20px;
+            max-width: 400px;
         }
 
-        /* Стиль кнопок */
-        .tariff-btn {
-            flex: 1; /* Одинаковый размер */
-            background-color: #1c1c1e;
-            border: 1px solid #3a3a3c;
-            color: white;
-            padding: 15px 5px;
-            border-radius: 12px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.3s;
+        /* Эффект матового стекла + фиолетовый неон */
+        .tariff-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(160, 32, 240, 0.4);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(160, 32, 240, 0.1);
         }
 
-        .tariff-btn:active {
-            background-color: #3a3a3c;
-            transform: scale(0.95);
+        .tariff-card h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #fff;
         }
 
-        /* Большая кнопка Купить */
-        .buy-btn {
-            width: 100%;
-            background-color: #007aff;
-            color: white;
+        .price {
+            font-size: 24px;
+            font-weight: 900;
+            color: #a020f0;
+            margin: 10px 0;
+            display: block;
+            text-shadow: 0 0 10px rgba(160, 32, 240, 0.5);
+        }
+
+        .btn-buy {
+            background: #a020f0;
+            color: #fff;
             border: none;
-            padding: 18px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(160, 32, 240, 0.4);
         }
 
-        /* Всплывающее окно (Модальное) */
+        /* Модалка */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
-
-        .modal-content {
-            background-color: #1c1c1e;
-            padding: 25px;
+        .m-content {
+            background: #000;
+            padding: 30px;
             border-radius: 20px;
+            border: 1px solid #a020f0;
             width: 80%;
-            max-width: 300px;
             text-align: center;
         }
-
         input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #111;
+            border: 1px solid #333;
+            color: #fff;
             border-radius: 10px;
-            border: 1px solid #3a3a3c;
-            background: #2c2c2e;
-            color: white;
             box-sizing: border-box;
-        }
-
-        .send-btn {
-            background-color: #34c759;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            width: 100%;
-            margin-top: 10px;
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <h2>Выберите план</h2>
-
-    <div class="button-container">
-        <button class="tariff-btn" onclick="selectTariff('Лайт', '1000₽')">Лайт<br><b>1000₽</b></button>
-        <button class="tariff-btn" onclick="selectTariff('Про', '2500₽')">Про<br><b>2500₽</b></button>
-        <button class="tariff-btn" onclick="selectTariff('Макс', '5000₽')">Макс<br><b>5000₽</b></button>
+    <div class="header">
+        <h1>ВЫБЕРИ ТАРИФ</h1>
     </div>
 
-    <button class="buy-btn" onclick="openModal()">КУПИТЬ</button>
+    <div class="tariff-container">
+        <div class="tariff-card">
+            <h2>ЛАЙТ</h2>
+            <span class="price">1000₽</span>
+            <button class="btn-buy" onclick="openM('ЛАЙТ')">ВЫБРАТЬ</button>
+        </div>
 
-    <div id="orderModal" class="modal">
-        <div class="modal-content">
-            <h3>Оформление</h3>
-            <input type="text" id="userName" placeholder="Ваше имя">
-            <input type="email" id="userEmail" placeholder="Ваш E-mail">
-            <button class="send-btn" onclick="sendData()">Отправить</button>
-            <button style="background:none; border:none; color:#999; margin-top:15px;" onclick="closeModal()">Отмена</button>
+        <div class="tariff-card">
+            <h2>ПРО</h2>
+            <span class="price">2500₽</span>
+            <button class="btn-buy" onclick="openM('ПРО')">ВЫБРАТЬ</button>
+        </div>
+
+        <div class="tariff-card">
+            <h2>МАКС</h2>
+            <span class="price">5000₽</span>
+            <button class="btn-buy" onclick="openM('МАКС')">ВЫБРАТЬ</button>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="m-content">
+            <h2 id="mT" style="color:#a020f0"></h2>
+            <input type="text" id="uN" placeholder="ИМЯ">
+            <input type="email" id="uE" placeholder="EMAIL">
+            <button class="btn-buy" onclick="send()">ОПЛАТИТЬ</button>
+            <p onclick="closeM()" style="margin-top:15px; color:#555">Назад</p>
         </div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
-        let selectedTariff = "Лайт (1000₽)"; // По умолчанию
+        let curT = "";
+        tg.expand();
 
-        tg.expand(); // Расширить на весь экран
-
-        function selectTariff(name, price) {
-            selectedTariff = name + " (" + price + ")";
-            // Подсветка выбранной кнопки (опционально можно добавить)
+        function openM(t) {
+            curT = t;
+            document.getElementById('mT').innerText = t;
+            document.getElementById('modal').style.display = 'flex';
             tg.HapticFeedback.impactOccurred('medium');
         }
 
-        function openModal() {
-            document.getElementById('orderModal').style.display = 'flex';
-        }
+        function closeM() { document.getElementById('modal').style.display = 'none'; }
 
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
-        }
-
-        function sendData() {
-            let name = document.getElementById('userName').value;
-            let email = document.getElementById('userEmail').value;
-
-            if (name === "" || email === "") {
-                alert("Пожалуйста, заполни все поля!");
-                return;
-            }
-
-            let data = {
-                tariff: selectedTariff,
-                name: name,
-                email: email
-            };
-
-            // Отправляем данные в бот
-            tg.sendData(JSON.stringify(data));
-            tg.close(); // Закрываем приложение
+        function send() {
+            let n = document.getElementById('uN').value;
+            let e = document.getElementById('uE').value;
+            if(!n || !e) return alert("Заполни поля!");
+            tg.sendData(JSON.stringify({tariff: curT, name: n, email: e}));
+            tg.close();
         }
     </script>
 </body>
